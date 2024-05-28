@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+
+<title>Zeturguita: O Despertar</title>
+<link rel="icon" href="{{ url_for('static', filename='logo.png') }}" sizes="16x16 32x32 48x48">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/eventemitter2@6.4.9/lib/eventemitter2.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/roslib@1/build/roslib.min.js"></script>
+
+<script type="text/javascript">
+  var ros = new ROSLIB.Ros({
+    url: 'ws://localhost:9090'
+  });
+
+  ros.on('connection', function() {
+    console.log('Connected to websocket server.');
+  });
+
+  ros.on('error', function(error) {
+    console.log('Error connecting to websocket server: ', error);
+  });
+
+  ros.on('close', function() {
+    console.log('Connection to websocket server closed.');
+  });
+
+  var videoTopic = new ROSLIB.Topic({
+    ros : ros,
+    name : '/video_frames',
+    messageType : 'sensor_msgs/CompressedImage'
+   });
+
+  var fpsTopic = new ROSLIB.Topic({
+    ros : ros,
+    name : '/latency',
+    messageType : 'std_msgs/String'
+  });
+
+  videoTopic.subscribe(function(message) {
+    var img = document.getElementById('videoStream');
+    img.src = 'data:image/jpeg;base64,' + message.data;
+  });
+
+  fpsTopic.subscribe(function(message) {
+    var fpsDisplay = document.getElementById('fpsDisplay');
+    fpsDisplay.innerText = message.data;
+  });
+
+  var topicoVelocidade = new ROSLIB.Topic({
+    ros: ros,
+    name: '/cmd_vel',
+    messageType: 'geometry_msgs/Twist'
+  });
+
+  function publicaVelocidade(linear, angular) {
+    var twist = new ROSLIB.Message({
+      linear: {
+        x: linear,
+        y: 0,
+        z: 0
+      },
+      angular: {
+        x: 0,
+        y: 0,
+        z: angular
+      }
+    });
+    topicoVelocidade.publish(twist);
+  }
+
+  function paraRobo() {
+    publicaVelocidade(0, 0);
+  }
+
+  document.addEventListener('keydown', function(event) {
+    switch (event.key) {
+      case 'ArrowUp':
+        publicaVelocidade(2.0, 0);
+        break;
+      case 'ArrowDown':
+        publicaVelocidade(-2.0, 0);
+        break;
+      case 'ArrowLeft':
+        publicaVelocidade(0, 1);
+        break;
+      case 'ArrowRight':
+        publicaVelocidade(0, -1);
+        break;
+    }
+  });
+
+  document.addEventListener('keyup', function(event) {
+    paraRobo(); 
+  });
+
+  function fechaConexao() {
+    paraRobo();
+    ros.close();
+  }
+
+  function recarregaPagina() {
+    window.location.reload();
+  }
+
+  window.onload = function() {
+    videoTopic.subscribe();
+    fpsTopic.subscribe();
+  };
+
+</script>
+</head>
+<body>
+  <h1>Zeturguita: O Despertar - Agora com imagens</h1>
+  <img id="videoStream" alt="Video Stream" />
+  <h2>Latência e FPS: <span id="fpsDisplay">Esperando dados...</span></h2>
+  
+  <div>
+    <button onclick="publicaVelocidade(2.0, 0)">Pra frente</button>
+    <button onclick="publicaVelocidade(-2.0, 0)">Pra trás</button>
+    <button onclick="publicaVelocidade(0, 1)">Pra esquerda</button>
+    <button onclick="publicaVelocidade(0, -1)">Pra direita</button>
+    <button onclick="fechaConexao()">Encerrar comunicação</button>
+    <button onclick="recarregaPagina()">Atualizar comunicação</button>
+  </div>
+
+  <p>Use o teclado ou os botões para controlar a zeturguita</p>
+</body>
+</html>
