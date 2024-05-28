@@ -67,10 +67,13 @@ nav-msgs==4.2.3
 nav2-common==1.1.13
 nav2-msgs==1.1.13
 nav2-simple-commander==1.0.0
+numpy==1.26.4
+opencv-python==4.9.0.80
 osrf-pycommon==2.0.2
 pcl-msgs==1.0.0
 pendulum-msgs==0.20.3
 python-qt-binding==1.1.2
+PyYAML==6.0.1
 qt-dotgraph==2.2.3
 qt-gui==2.2.3
 qt-gui-cpp==2.2.3
@@ -161,6 +164,8 @@ turtlebot3-example==2.1.5
 turtlebot3-msgs==2.2.3
 turtlebot3-teleop==2.1.5
 turtlesim==1.4.2
+typeguard==4.3.0
+typing_extensions==4.12.0
 unique-identifier-msgs==2.2.1
 vehicle==2023.1.2
 vision-msgs==4.1.1
