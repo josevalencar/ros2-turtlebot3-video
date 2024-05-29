@@ -6,6 +6,7 @@
 <title>Zeturguita: O Despertar</title>
 <link rel="icon" href="{{ url_for('static', filename='logo.png') }}" sizes="16x16 32x32 48x48">
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/eventemitter2@6.4.9/lib/eventemitter2.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/roslib@1/build/roslib.min.js"></script>
@@ -117,14 +118,16 @@
   <img id="videoStream" alt="Video Stream" />
   <h2>Latência e FPS: <span id="fpsDisplay">Esperando dados...</span></h2>
   
-  <div>
-    <button onclick="publicaVelocidade(2.0, 0)">Pra frente</button>
-    <button onclick="publicaVelocidade(-2.0, 0)">Pra trás</button>
-    <button onclick="publicaVelocidade(0, 1)">Pra esquerda</button>
-    <button onclick="publicaVelocidade(0, -1)">Pra direita</button>
-    <button onclick="fechaConexao()">Encerrar comunicação</button>
-    <button onclick="recarregaPagina()">Atualizar comunicação</button>
-  </div>
+  <div class="direction-pad">
+    <button class="direction-button" id="btnUp" onclick="publicaVelocidade(2.0, 0)"><i class="fas fa-arrow-up"></i></button>
+    <button class="direction-button" id="btnLeft" onclick="publicaVelocidade(0, 1)"><i class="fas fa-arrow-left"></i></button>
+    <button class="direction-button" id="btnDown" onclick="publicaVelocidade(-2.0, 0)"><i class="fas fa-arrow-down"></i></button>
+    <button class="direction-button" id="btnRight" onclick="publicaVelocidade(0, -1)"><i class="fas fa-arrow-right"></i></button>
+</div>
+
+<button class="control-button" onclick="fechaConexao()"><i class="fas fa-power-off"></i> Encerrar comunicação</button>
+<button class="control-button" onclick="recarregaPagina()"><i class="fas fa-sync-alt"></i> Atualizar comunicação</button>
+
 
   <p>Use o teclado ou os botões para controlar a zeturguita</p>
 </body>

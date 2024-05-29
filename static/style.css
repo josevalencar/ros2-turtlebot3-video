@@ -1,4 +1,3 @@
-/* style.css */
 body {
     background-image: url("/static/background.jpg");
     background-size: cover;
@@ -42,3 +41,66 @@ input, button {
 button {
     cursor: pointer;
 }
+
+.direction-pad {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+    width: 200px;
+    place-items: center; 
+    margin: 20px;
+}
+
+.direction-button {
+    width: 50px;
+    height: 50px; 
+    border-radius: 50%; 
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f0f0f0; 
+    border: none; 
+    outline: none;
+}
+
+.direction-button:hover {
+    background-color: #e0e0e0;
+}
+
+.control-button {
+    margin: 10px;
+    padding: 10px;
+    background-color: #ffffff; 
+    border-radius: 5px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.control-button i {
+    margin-right: 5px;
+}
+
+.control-button:hover {
+    background-color: #e0e0e0;
+}
+#btnUp {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+}
+
+#btnLeft {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+}
+
+#btnDown {
+    grid-column: 2 / 3;
+    grid-row: 3 / 4;
+}
+
+#btnRight {
+    grid-column: 3 / 3;
+    grid-row: 2 / 3;
+}
+
